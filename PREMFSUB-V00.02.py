@@ -42,8 +42,8 @@ from telegram.ext import (
 )
 
 # ==================== CONFIGURATION ====================
-DEFAULT_TOKEN = "9046821392:AAHe2KZAjw-TZeGJKS-MEQSCLOXzSbrsGoI"
-DEFAULT_OWNER_ID = 6719844402
+DEFAULT_TOKEN = "TOKEN_BOT"
+DEFAULT_OWNER_ID = 1234567890
 
 BOT_TOKEN = os.getenv("BOT_TOKEN", DEFAULT_TOKEN).strip()
 try:
