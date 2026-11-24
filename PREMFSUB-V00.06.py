@@ -561,11 +561,52 @@ DASHBOARD_SECTIONS = {
 }
 
 
+ADMIN_TEXT = (
+    "📋 PREMFSUB — MENU ADMIN\n\n"
+    "DATABASE\n"
+    "/setdb ID — Tambah Database\n"
+    "/cekdb — Lihat Database\n"
+    "/deldb ID — Hapus Database\n\n"
+    "FORCE SUBSCRIBE\n"
+    "/addfsub ID — Tambah channel/grup wajib join\n"
+    "/delfsub ID — Hapus tujuan FSub\n"
+    "/listfsub — Lihat daftar FSub\n\n"
+    "AUTOPOST\n"
+    "/setautopost ID — Atur tujuan Autopost\n"
+    "/cekautopost — Cek konfigurasi\n"
+    "/delautopost — Hapus tujuan Autopost\n"
+    "Kirim pesan yang diawali # beserta link sharing PREMFSUB untuk membuat postingan.\n\n"
+    "MEDIA\n"
+    "/addpic — Reply foto untuk mengatur thumbnail\n"
+    "/delpic — Hapus thumbnail\n"
+    "/cancelupload — Batalkan sesi upload\n"
+    "Kirim foto/video atau album ke chat pribadi bot untuk menyimpan ke Database.\n\n"
+    "SISTEM\n"
+    "/autodelete 30 — Hapus salinan DM setelah 30 menit\n"
+    "/autodelete off — Matikan Auto-delete\n"
+    "/protect true — Aktifkan Protect Content\n"
+    "/protect false — Nonaktifkan Protect Content\n"
+    "/stats — Statistik bot\n"
+    "/ping — Cek respons dan latency\n"
+    "/id — Cek ID chat/pengguna\n\n"
+    "BROADCAST\n"
+    "/broadcast — Reply pesan atau media untuk mengirim broadcast\n\n"
+    "Gunakan perintah dengan mengetik langsung di chat bot."
+)
+
+
 async def show_dashboard(update: Update, context: ContextTypes.DEFAULT_TYPE, edit=False):
     user = update.effective_user
-    is_super_owner = bool(user and user.id == OWNER_ID)
-    markup = dashboard_keyboard(is_super_owner)
     message = update.effective_message
+    is_super_owner = bool(user and user.id == OWNER_ID)
+
+    # Admin operasional mendapat panduan teks tanpa tombol.
+    if not is_super_owner:
+        if message:
+            await message.reply_text(ADMIN_TEXT)
+        return
+
+    markup = dashboard_keyboard(True)
     if edit and message:
         try:
             await message.edit_text(
